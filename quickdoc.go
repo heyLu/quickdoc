@@ -24,6 +24,7 @@ func main() {
 <head>
 	<meta charset="utf-8" />
 	<title>quickdoc</title>
+	<link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 	<style>
 	body {
 		margin: 0;
@@ -109,6 +110,11 @@ ag!h
 				return
 			}
 		}
+	})
+
+	http.HandleFunc("/favicon.ico", func(w http.ResponseWriter, req *http.Request) {
+		w.Header().Set("Content-Type", "image/x-icon")
+		http.ServeFile(w, req, "./favicon-dragon.ico")
 	})
 
 	addr := "localhost:9998"
