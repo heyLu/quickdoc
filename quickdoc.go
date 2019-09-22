@@ -77,6 +77,10 @@ func main() {
 /net.ListenIP
 /net/http -> renders net/http docs
 
+!py time
+!py time.time
+!py str.split
+
 write -> renders man page for write
 2 write -> renders man page for write(2)
 
