@@ -94,6 +94,14 @@ ag!h
 				fmt.Fprintf(w, "\n\nERROR\n")
 				return
 			}
+		case strings.Contains(pkgName, "!py"):
+			cmdName := strings.TrimSpace(strings.Replace(pkgName, "!py", "", 1))
+			err := RenderPythonHelp(w, cmdName)
+			if err != nil {
+				log.Printf("could not render help for %s: %s", cmdName, err)
+				fmt.Fprintf(w, "\n\nERROR\n")
+				return
+			}
 		case strings.Contains(pkgName, "!h"):
 			cmdName := strings.TrimSpace(strings.Replace(pkgName, "!h", "", 1))
 			err := RenderProgramHelp(w, cmdName)
@@ -124,6 +132,20 @@ ag!h
 
 func RenderGoDoc(w io.Writer, pkgName string) error {
 	cmd := exec.Command("go", "doc", pkgName)
+	cmd.Stdout = w
+	cmd.Stderr = w
+	return cmd.Run()
+}
+
+func RenderPythonHelp(w io.Writer, helpName string) error {
+	parts := strings.SplitN(helpName, ".", 2)
+	helpCmd := ""
+	if len(parts) == 2 {
+		helpCmd += fmt.Sprintf("import %s; ", parts[0])
+	}
+	fmt.Fprintln(w, helpCmd)
+	helpCmd += fmt.Sprintf("help(%q)", helpName)
+	cmd := exec.Command("python3", "-c", helpCmd)
 	cmd.Stdout = w
 	cmd.Stderr = w
 	return cmd.Run()
