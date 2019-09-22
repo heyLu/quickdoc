@@ -141,7 +141,12 @@ func RenderPythonHelp(w io.Writer, helpName string) error {
 	parts := strings.SplitN(helpName, ".", 2)
 	helpCmd := ""
 	if len(parts) == 2 {
-		helpCmd += fmt.Sprintf("import %s; ", parts[0])
+		helpCmd += fmt.Sprintf(`try:
+    import %s
+except:
+    pass
+
+`, parts[0])
 	}
 	fmt.Fprintln(w, helpCmd)
 	helpCmd += fmt.Sprintf("help(%q)", helpName)
