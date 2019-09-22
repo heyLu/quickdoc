@@ -148,7 +148,6 @@ except:
 
 `, parts[0])
 	}
-	fmt.Fprintln(w, helpCmd)
 	helpCmd += fmt.Sprintf("help(%q)", helpName)
 	cmd := exec.Command("python3", "-c", helpCmd)
 	cmd.Stdout = w
