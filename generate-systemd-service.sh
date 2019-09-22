@@ -10,7 +10,7 @@ Description=quickdoc - show local documentation quickly
 DynamicUser=true
 ExecStart=$BINARY_PATH
 ProtectSystem=strict
-SystemCallFilter=@network-io @process
+SystemCallFilter=@io-event @network-io @process @system-service
 WorkingDirectory=/tmp
 PrivateTmp=true
 
